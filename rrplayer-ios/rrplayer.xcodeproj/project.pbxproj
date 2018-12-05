@@ -18,6 +18,7 @@
 		296073F621B13CDC0011059C /* RRVideoRender.m in Sources */ = {isa = PBXBuildFile; fileRef = 296073F521B13CDC0011059C /* RRVideoRender.m */; };
 		296073F821B1429A0011059C /* render_yuv.frag in Resources */ = {isa = PBXBuildFile; fileRef = 296073F721B1429A0011059C /* render_yuv.frag */; };
 		296073FA21B143CB0011059C /* render_yuv.vert in Resources */ = {isa = PBXBuildFile; fileRef = 296073F921B143CB0011059C /* render_yuv.vert */; };
+		296073FD21B771920011059C /* RRVideoRenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 296073FC21B771920011059C /* RRVideoRenderView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,8 @@
 		296073F521B13CDC0011059C /* RRVideoRender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RRVideoRender.m; sourceTree = "<group>"; };
 		296073F721B1429A0011059C /* render_yuv.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = render_yuv.frag; sourceTree = "<group>"; };
 		296073F921B143CB0011059C /* render_yuv.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = render_yuv.vert; sourceTree = "<group>"; };
+		296073FB21B771920011059C /* RRVideoRenderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RRVideoRenderView.h; sourceTree = "<group>"; };
+		296073FC21B771920011059C /* RRVideoRenderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RRVideoRenderView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,8 +86,10 @@
 				296073D621B11D9C0011059C /* main.m */,
 				296073F421B13CDC0011059C /* RRVideoRender.h */,
 				296073F521B13CDC0011059C /* RRVideoRender.m */,
-				296073F721B1429A0011059C /* render_yuv.frag */,
 				296073F921B143CB0011059C /* render_yuv.vert */,
+				296073F721B1429A0011059C /* render_yuv.frag */,
+				296073FB21B771920011059C /* RRVideoRenderView.h */,
+				296073FC21B771920011059C /* RRVideoRenderView.m */,
 			);
 			path = rrplayer;
 			sourceTree = "<group>";
@@ -171,6 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				296073CC21B11D990011059C /* ViewController.m in Sources */,
+				296073FD21B771920011059C /* RRVideoRenderView.m in Sources */,
 				296073F621B13CDC0011059C /* RRVideoRender.m in Sources */,
 				296073D721B11D9C0011059C /* main.m in Sources */,
 				296073C921B11D990011059C /* AppDelegate.m in Sources */,

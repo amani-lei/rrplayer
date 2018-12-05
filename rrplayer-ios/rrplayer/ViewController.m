@@ -7,37 +7,29 @@
 //
 
 #import "ViewController.h"
-
+#import "RRVideoRender.h"
 @interface ViewController ()
 
+//
+//@property (nonatomic, strong) EAGLContext *context;
+//@property (nonatomic, strong) GLKBaseEffect *baseEffect;
+//@property (nonatomic, strong) CAEAGLLayer * layer;
 
-@property (nonatomic, strong) EAGLContext *context;
-@property (nonatomic, strong) GLKBaseEffect *baseEffect;
-@property (nonatomic, strong) CAEAGLLayer * layer;
+@property (nonatomic, strong) RRVideoRender * render;
 
 @end
 //
 @implementation ViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     // Do any additional setup after loading the view, typically from a nib.
-    GLKView * view = (GLKView*)self.view;
-    _layer = (CAEAGLLayer *) self.view.layer;
-    self.context = [[EAGLContext alloc]initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    view.context = self.context;
-    [EAGLContext setCurrentContext:view.context];
-    self.baseEffect = [[GLKBaseEffect alloc]init];
-    self.baseEffect.useConstantColor = GL_TRUE;
-    self.baseEffect.constantColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    
+    _render = [[RRVideoRender alloc]initWithView:self.view];
+    unsigned char * y = malloc(320*480);
+    memset(y, 100, 320*480);
+    [self.render drawYuv:y u:y v:y w:320 h:480];
 }
 
-- (void)setupRenderBuffer {
-    GLuint render_buffer;
-    glGenRenderbuffers(1, &render_buffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, render_buffer);
-    [self.context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_layer];
-}
+
 
 @end
