@@ -36,8 +36,14 @@
 }
 
 - (id)init{
+    [self initLayer];
+    [self initContext];
+    [self initShader];
+    [self initTexture];
     return self;
 }
+
+
 
 - (void)initOpengl{
     
@@ -62,6 +68,7 @@
 }
 
 - (void)initTexture{
+    NSLog(@"%d", glGetError());
     if(self.texY){
         glDeleteTextures(1, &_texY);
     }
@@ -100,11 +107,12 @@
     //GL_LINEAR 线性取平均值纹素，GL_NEAREST 取最近点的纹素
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);//放大过滤。
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);//缩小过滤
+    NSLog(@"%d", glGetError());
     //纹理包装
     //包装模式有：GL_REPEAT重复，GL_CLAMP_TO_EDGE采样纹理边缘，GL_MIRRORED_REPEAT镜像重复纹理。
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);//纹理超过S轴
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);//纹理超过T轴
-    
+    NSLog(@"%d", glGetError());
     
     //V
     glActiveTexture(GL_TEXTURE2);
@@ -120,6 +128,7 @@
 }
 
 - (void)initShader{
+    NSLog(@"%d(line:%d\n)", glGetError(), __LINE__);
     NSString * vertex_shader_path = [[NSBundle mainBundle] pathForResource:@"render_yuv" ofType:@"vert"];
     NSString * fragment_shader_path = [[NSBundle mainBundle] pathForResource:@"render_yuv" ofType:@"frag"];
     //读取编译shader
@@ -136,9 +145,10 @@
     //绑定position属性到顶点着色器的0位置，绑定TexCoordIn到顶点着色器的1位置
     glBindAttribLocation(self.program, 0, "position");
     glBindAttribLocation(self.program, 1, "TexCoordIn");
+    NSLog(@"%d(line:%d\n)", glGetError(), __LINE__);
     //链接程序
     glLinkProgram(self.program);
-    
+    NSLog(@"%d(line:%d\n)", glGetError(), __LINE__);
     //删除
     if (vertexShader)   glDeleteShader(vertexShader);
     if (fragmentShader) glDeleteShader(fragmentShader);
@@ -146,10 +156,15 @@
     GLuint textureUniformY = glGetUniformLocation(self.program, "SamplerY");
     GLuint textureUniformU = glGetUniformLocation(self.program, "SamplerU");
     GLuint textureUniformV = glGetUniformLocation(self.program, "SamplerV");
+    NSLog(@"%d(line:%d\n)", glGetError(), __LINE__);
+    glUseProgram(self.program);
     //分别设置为0，1，2.
     glUniform1i(textureUniformY, 0);
+    NSLog(@"%d(line:%d\n)", glGetError(), __LINE__);
     glUniform1i(textureUniformU, 1);
+    NSLog(@"%d(line:%d\n)", glGetError(), __LINE__);
     glUniform1i(textureUniformV, 2);
+    NSLog(@"%d(line:%d\n)", glGetError(), __LINE__);
     
 }
 
@@ -217,6 +232,7 @@
     self.height = height;
 }
 
+// 默认屏幕
 - (void)image2DdefineWidth:(GLuint)width  height:(GLuint)height{
     if (self.width == width&&self.height == height) {
         return;
@@ -360,10 +376,11 @@
     //绑定到OpenGL
     glBindFramebuffer(GL_FRAMEBUFFER, self.frameBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, self.renderBuffer);
-    
+    //关联gl上下文和view layer
     if (![self.glContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer *)self.glLayer]) {
         NSLog(@"attach渲染缓冲区失败");
     }
+    
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, self.renderBuffer);
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
         NSLog(@"创建缓冲区错误 0x%x", glCheckFramebufferStatus(GL_FRAMEBUFFER));

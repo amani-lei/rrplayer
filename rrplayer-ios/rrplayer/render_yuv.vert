@@ -1,10 +1,9 @@
-//0
-attribute vec4 vPosition;
-//1
-attribute vec2 a_texCoord;
-varying vec2 tc;
-void main()
+attribute vec4 position;
+attribute vec2 TexCoordIn;
+varying   vec2 TexCoordOut;
+
+void main(void)
 {
-   gl_Position = vPosition;
-   tc = a_texCoord;
+    gl_Position = position;
+    TexCoordOut = TexCoordIn;
 }
